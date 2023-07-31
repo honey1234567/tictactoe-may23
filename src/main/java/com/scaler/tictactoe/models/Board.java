@@ -37,4 +37,12 @@ public class Board {
     public void setBoard(List<List<Cell>> board) {
         this.board = board;
     }
+
+    public void applyMove(Move move) {
+        int row = move.getCell().getRow();
+        int col = move.getCell().getCol();
+
+        this.getBoard().get(row).get(col).setCellState(CellState.FILLED);
+        this.getBoard().get(row).get(col).setPlayer(move.getPlayer());
+    }
 }

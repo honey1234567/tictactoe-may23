@@ -32,6 +32,35 @@ public class Game {
         this.board.displayBoard();
     }
 
+    public void makeNextMove() {
+        //Steps:
+        //1. Player should be able to decide the Move.
+        //2. Check the validation of the move, if move is valid then make the move.
+
+        Player playerToMove = players.get(nextPlayerIndex);
+
+        System.out.println("It is " + playerToMove.getName() + "'s turn");
+        Move move = playerToMove.decideMove();
+
+        //validate the Move.
+        int row = move.getCell().getRow();
+        int col = move.getCell().getCol();
+
+        if (board.getBoard().get(row).get(col).getCellState().equals(CellState.EMPTY)) {
+            //Move is valid.
+            board.applyMove(move);
+            moves.add(move);
+
+            //Check the winner.
+
+
+            nextPlayerIndex += 1;
+            nextPlayerIndex %= players.size();
+        } else {
+            //throw some exception.
+        }
+    }
+
     public Board getBoard() {
         return board;
     }
@@ -75,7 +104,6 @@ public class Game {
     public static class Builder {
         private int dimension;
         private List<Player> players;
-
         public Builder setDimension(int dimension) {
             this.dimension = dimension;
             return this;

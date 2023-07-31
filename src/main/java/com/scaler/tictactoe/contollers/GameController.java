@@ -13,11 +13,10 @@ public class GameController {
     }
 
     public void undo(Game game) {
-
     }
 
     public void executeNextMove(Game game) {
-
+        game.makeNextMove();
     }
 
     public Player getWinner(Game game) {
