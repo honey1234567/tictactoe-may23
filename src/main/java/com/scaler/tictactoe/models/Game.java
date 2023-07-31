@@ -1,5 +1,7 @@
 package com.scaler.tictactoe.models;
 
+import com.scaler.tictactoe.strategies.gamewinningstrategy.GameWinningStrategy;
+import com.scaler.tictactoe.strategies.gamewinningstrategy.OrderOneGameWinningStrategy;
 import exceptions.InvalidGameDimensionException;
 import exceptions.InvalidNumberOfPlayersException;
 
@@ -13,6 +15,16 @@ public class Game {
     private GameStatus gameStatus;
     private int nextPlayerIndex;
     private Player winner;
+
+    private GameWinningStrategy gameWinningStrategy;
+
+    public GameWinningStrategy getGameWinningStrategy() {
+        return gameWinningStrategy;
+    }
+
+    public void setGameWinningStrategy(GameWinningStrategy gameWinningStrategy) {
+        this.gameWinningStrategy = gameWinningStrategy;
+    }
 
     public Player getWinner() {
         return winner;
@@ -40,7 +52,7 @@ public class Game {
         Player playerToMove = players.get(nextPlayerIndex);
 
         System.out.println("It is " + playerToMove.getName() + "'s turn");
-        Move move = playerToMove.decideMove();
+        Move move = playerToMove.decideMove(board);
 
         //validate the Move.
         int row = move.getCell().getRow();
@@ -51,8 +63,11 @@ public class Game {
             board.applyMove(move);
             moves.add(move);
 
-            //Check the winner.
-
+            //Check the winner. -> Here the game winning strategy is required.
+            if (gameWinningStrategy.checkWinner(board, move)) {
+                gameStatus = GameStatus.ENDED;
+                winner = playerToMove;
+            }
 
             nextPlayerIndex += 1;
             nextPlayerIndex %= players.size();
@@ -146,6 +161,7 @@ public class Game {
             game.setBoard(new Board(dimension));
             game.setMoves(new ArrayList<>());
             game.setNextPlayerIndex(0);
+            game.setGameWinningStrategy(new OrderOneGameWinningStrategy(dimension));
 
             return game;
         }
