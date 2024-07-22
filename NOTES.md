@@ -6,3 +6,4 @@ otherwise we'll get NPE.
 
 in builder class we might need some param
 here we are directly interacting with game so make one wall
+
