@@ -6,4 +6,5 @@ otherwise we'll get NPE.
 
 in builder class we might need some param
 here we are directly interacting with game so make one wall
+child  constructor should call paent any constructor if not then jvm will write super()
 
